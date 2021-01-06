@@ -67,7 +67,8 @@ if __name__ == "__main__":
     dim_x = 15
 
     dim_y = dim_x
-    pandemic = pm.pandemic_manager()
+    steps = 60
+    pandemic = pm.pandemic_manager(steps = steps)
 
 
     # snake = md.snake_model(dim_x)
@@ -81,7 +82,7 @@ if __name__ == "__main__":
     # gpuFloor = es.toGPUShapePattern(bs.createTextureQuad(["figures/grass3.png", "figures/grass4.png"]), dim_x, dim_y,
     #                                 GL_REPEAT,
     #                                 GL_NEAREST)  # GL_NEAREST is about a metric to wich pixel color use.
-    gpuFloor = es.toGPUShape(bs.createTextureQuad("figures/grass1.png",1,1), GL_REPEAT, GL_NEAREST)
+    gpuFloor = es.toGPUShape(bs.createTextureQuad("figures/city.png",1,1), GL_REPEAT, GL_NEAREST)
     # gpuFloor = es.toGPUShape(bs.createTextureQuad("figures/city2.png",1,1), GL_REPEAT, GL_NEAREST)
     # GL_NEAREST is about a metric to wich pixel color use.
     # In this case the nearest to the element en the gpuhape.
@@ -101,7 +102,7 @@ if __name__ == "__main__":
 
     floorTransform = tr.scale(1.9, 1.9, 1)
     t0 = 0
-    time_step = 0.15
+    time_step = 4.5/steps*1
     dead = False
     # sign = 1
     while not glfw.window_should_close(window):

@@ -37,6 +37,12 @@ class Controller(object):
             # self.model.move_left()
             self.pandemic.next_day()
 
+        elif key == glfw.KEY_P and action == glfw.PRESS:
+            # print('Move rigth')
+            # self.model.move_left()
+            self.pandemic.show_plots()
+
+
         # elif key == glfw.KEY_LEFT and action == glfw.PRESS:
         #     print('Move left')
         #     # self.model.move_left()

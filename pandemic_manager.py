@@ -5,16 +5,16 @@ import models as md
 
 
 class pandemic_manager:
-    def __init__(self, path='/home/luis/2020/computacion grafica/pandemic/virus.json'):
+    def __init__(self, path='/home/luis/2020/computacion grafica/pandemic/virus.json',steps = 15):
         with open(path) as f:
             population_characteristics = json.load(f)
 
-        self.steps_per_day = 15
+        self.steps_per_day = steps
         self.current_step = 0
         self.city_size = 100
 
         # self.population = self.create_population(population_characteristics['Initial_population'],
-        population = self.create_population(4,
+        population = self.create_population(100,
                                             population_characteristics['Death_rate'],
                                             population_characteristics['Days_to_heal'],
                                             population_characteristics['Number_sick'],
@@ -33,6 +33,9 @@ class pandemic_manager:
                                   population_characteristics['Number_urban_centers'])
 
         self.next_action = self.stay_still
+
+        self.stats_sick = []
+        self.max_size_stats = 30
 
     def create_population(self, n_population, death_rate, days_to_heal, number_sick_people, percentage_healthy_people,
                           percentage_normal_people, steps_per_day, city_size):
@@ -101,7 +104,16 @@ class pandemic_manager:
             self.next_action = self.next_step
 
     def next_step(self, pipeline):
-        if self.current_step == self.steps_per_day:
+
+        if self.current_step == int(self.steps_per_day/2):
+            self.map.step_and_update_cases()
+            # self.map.check_contagious()
+
+        elif self.current_step == self.steps_per_day:
+            self.map.step_and_update_cases()
+            # self.map.check_contagious()
+
+        elif self.current_step == int(self.steps_per_day*3/2):
             self.map.step_and_update_cases()
             # self.map.check_contagious()
 
@@ -110,7 +122,6 @@ class pandemic_manager:
             self.map.step_and_update_cases()
             self.current_step = -1
             self.next_action = self.stay_still
-            self.map.check_sick_people()
             self.map.next_day()
             # self.map.check_contagious()
 
@@ -130,3 +141,16 @@ class pandemic_manager:
 
     def draw(self, pipeline):
         self.map.draw(pipeline)
+
+    def show_plots(self):
+        stats_age, stats_sick = self.get_stats()
+
+        if self.max_size_stats == len(stats_age):
+            self.stats_sick.pop(0)
+        self.stats_sick += [stats_sick]
+
+
+
+
+    def get_stats_age(self):
+        pass

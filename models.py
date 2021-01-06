@@ -570,7 +570,8 @@ class individual_graph(basic_model):
 
         gpu_quad = self.get_gpu_color_quad(type_person)
         person_scaled = sg.SceneGraphNode("person_scaled")
-        person_scaled.transform = tr.uniformScale(5 / Size_field)
+        person_scaled.transform = tr.uniformScale(2.5 / Size_field)
+        # person_scaled.transform = tr.uniformScale(5 / Size_field)
         person_scaled.childs += [gpu_quad]
 
         self.square = person_scaled
@@ -630,7 +631,7 @@ class center_graph(basic_model):
 
         # print("field size: ", self.size_field)
         # gpu_quad = self.get_gpu_color_quad(type_person)
-        gpu_quad = es.toGPUShape(bs.createColorQuad(1.0, 1.0, 1.0))  # white
+        gpu_quad = es.toGPUShape(bs.createColorQuad(0.8, 0.8, 0.0))  # white
         center_scaled = sg.SceneGraphNode("center_scaled")
         center_scaled.transform = tr.uniformScale(5 / Size_field)
         center_scaled.childs += [gpu_quad]

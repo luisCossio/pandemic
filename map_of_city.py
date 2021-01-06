@@ -22,16 +22,17 @@ class map_of_city:
 
         # city properties
         self.city_size = city_size
-        self.centers_radius = radius_contagious*3  # this is how big radius of centers are.
+        self.centers_radius = radius_contagious*3.5  # this is how big radius of centers are.
         self.centers = self.get_centers(number_of_centers)
         self.center_models = self.get_centers_models()
 
     def draw(self, pipeline):
+        for i in range(self.number_of_centers):
+            self.center_models[i].draw(pipeline)
+
         for i in range(len(self.population)):
             self.population[i].draw(pipeline)
 
-        for i in range(self.number_of_centers):
-            self.center_models[i].draw(pipeline)
 
 
     def step(self):
@@ -69,7 +70,7 @@ class map_of_city:
         for i in range(number_of_centers):
             centers += [self.get_random_position()]
         return centers
-    
+
     def get_centers_models(self):
         models = []
         for i in range(self.number_of_centers):
@@ -83,8 +84,18 @@ class map_of_city:
         for i in range(self.number_of_centers):
             dist = self.distance_between(location, self.centers[i])
             if dist < self.centers_radius:
+                # print("original location {:.2f} , {:.2f}".format(location[0,0],location[1,0]))
                 return self.modify_location(dist,location,self.centers[i])
         return location
+
+    def modify_location(self, dist_to_center, pos_individual, center):
+        alpha = dist_to_center / self.centers_radius
+        # print("alpha {:.2f}".format(alpha))
+        # print("center:  {:.2f} , {:.2f}".format(center[0,0], center[1,0]))
+        new_pos = pos_individual*alpha + (1-alpha)*center
+        # print("new location {:.2f} , {:.2f}".format(new_pos[0,0], new_pos[1,0]))
+        return pos_individual*alpha + (1-alpha)*center
+        return new_pos
 
     def update_sick(self, locations):
         locations = np.concatenate(locations, axis=1)
@@ -110,7 +121,4 @@ class map_of_city:
     def distance_between(self, pos1, pos2):
         return np.linalg.norm(pos1-pos2)
 
-    def modify_location(self, dist_to_center, pos_individual, center):
-        alpha = dist_to_center/self.radius
-        return pos_individual*alpha + (1-alpha)*center
 
