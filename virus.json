@@ -1,0 +1,2 @@
+{"Radius": 15, "Contagious_prob": 0.2, "Death_rate": 0.1, "Initial_population": 50, "Days_to_heal": 5,
+  "Percentage_healthy": 0.3,"Percentage_normal": 0.5,"Number_sick": 2,"Number_urban_centers": 4}

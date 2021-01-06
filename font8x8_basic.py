@@ -21,7 +21,7 @@ Fetched from: https://github.com/dhepper/font8x8/blob/master/font8x8.h
 import numpy
 
 # Constant: font8x8_basic
-# Contains an 8x8 font map for unicode points U+0000 - U+007F (basic latin)
+# Contains an 8x8 font map_of_city for unicode points U+0000 - U+007F (basic latin)
 # shape = (128, 8)
 font8x8_basic = numpy.array([
     [ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00],   # U+0000 (nul)

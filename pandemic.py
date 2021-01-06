@@ -15,7 +15,8 @@ import basic_shapes as bs
 import easy_shaders as es
 import easy_shaders2 as es2
 import controller as cr
-import models as md
+# import models as md
+import pandemic_manager as pm
 import text_renderer as tx
 
 if __name__ == "__main__":
@@ -66,17 +67,22 @@ if __name__ == "__main__":
     dim_x = 15
 
     dim_y = dim_x
+    pandemic = pm.pandemic_manager()
+
+
     # snake = md.snake_model(dim_x)
     # rat = md.target(dim_x)
 
-    # controller.set_model(snake)
+    controller.set_model(pandemic)
     # controller.set_target(rat)
+
 
     # Creating shapes on GPU memory
     # gpuFloor = es.toGPUShapePattern(bs.createTextureQuad(["figures/grass3.png", "figures/grass4.png"]), dim_x, dim_y,
     #                                 GL_REPEAT,
     #                                 GL_NEAREST)  # GL_NEAREST is about a metric to wich pixel color use.
-    gpuFloor = es.toGPUShape(bs.createTextureQuad("figures/grass1.png",10,1), GL_REPEAT, GL_NEAREST)
+    gpuFloor = es.toGPUShape(bs.createTextureQuad("figures/grass1.png",1,1), GL_REPEAT, GL_NEAREST)
+    # gpuFloor = es.toGPUShape(bs.createTextureQuad("figures/city2.png",1,1), GL_REPEAT, GL_NEAREST)
     # GL_NEAREST is about a metric to wich pixel color use.
     # In this case the nearest to the element en the gpuhape.
     # floorTransform = np.matmul(tr.translate(0, 0, 0), tr.scale(2, 1, 1))
@@ -114,9 +120,8 @@ if __name__ == "__main__":
         pipeline.drawShape(gpuFloor)
 
         # snake.draw(pipeline)
-        # glUseProgram(pipeline_objects.shaderProgram)
+        glUseProgram(pipeline_objects.shaderProgram)
         # rat.draw(pipeline_objects)
-        #
         # snake.rat_eaten(rat)
 
         # if dead:
@@ -146,9 +151,12 @@ if __name__ == "__main__":
         #         dead = True
         #     else:
         #         snake.forward()
-
-            # epidemic.report()
-            # rat.report()
+        if dt > time_step:
+            t0 = ti
+            pandemic.next_action(pipeline_objects)
+        else:
+            pandemic.draw(pipeline_objects)
+            # pandemic.report()
 
         # Once the render is done, buffers are swapped, showing only the complete scene.
         glfw.swap_buffers(window)
